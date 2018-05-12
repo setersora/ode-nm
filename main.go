@@ -77,7 +77,8 @@ func DrawPlot(start, end, y0 float64, pointsCount int, plotName, filename string
 	p.Y.Label.Text = "Y"
 
 	err = plotutil.AddLinePoints(p,
-		"Precise", PreciseSolution(start, end, pointsCount))
+		"Precise", PreciseSolution(start, end, pointsCount),
+		"Ecplicit Euler", ExplicitEuler(start, end, y0, pointsCount))
 	if err != nil {
 		panic(err)
 	}
