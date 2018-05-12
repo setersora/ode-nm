@@ -67,3 +67,31 @@ func Cauchy(start, end, y0 float64, count int) plotter.XYs {
 
 	return solution
 }
+
+
+// RungeKutta returns data for plot building based on RungeKutta 4th-Order method.
+func RungeKutta(start, end, y0 float64, count int) plotter.XYs {
+	step, xRange := GetRange(start, end, count)
+	solution := make(plotter.XYs, count)
+
+	for i := range solution {
+		x := xRange[i]
+
+		solution[i].X = x
+		if i == 0 {
+			solution[i].Y = y0
+		} else {
+			y := solution[i - 1].Y
+
+			k1 := step * F(x, y)
+			k2 := step * F(x + step / 2, y + k1 / 2)
+			k3 := step * F(x + step / 2, y + k2 / 2)
+			k4 := step * F(x + step, y + k3)
+
+			solution[i].Y = y + (k1 / 6) + 2 * (k2 / 6) +
+				2 * (k3 / 6) + (k4 / 6)
+		}
+	}
+
+	return solution
+}

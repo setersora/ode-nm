@@ -80,7 +80,8 @@ func DrawPlot(start, end, y0 float64, pointsCount int, plotName, filename string
 		"Precise", PreciseSolution(start, end, pointsCount),
 		"Ecplicit Euler", ExplicitEuler(start, end, y0, pointsCount),
 		"Modified Euler", ModifiedEuler(start, end, y0, pointsCount),
-		"Cauchy", Cauchy(start, end, y0, pointsCount))
+		"Cauchy", Cauchy(start, end, y0, pointsCount),
+		"RungeKutta", RungeKutta(start, end, y0, pointsCount))
 	if err != nil {
 		panic(err)
 	}
