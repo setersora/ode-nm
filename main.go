@@ -82,7 +82,8 @@ func DrawPlot(start, end, y0 float64, pointsCount int, plotName, filename string
 		"Modified Euler", ModifiedEuler(start, end, y0, pointsCount),
 		"Cauchy", Cauchy(start, end, y0, pointsCount),
 		"RungeKutta", RungeKutta(start, end, y0, pointsCount),
-		"Tailor 2th", Tailor(start, end, y0, pointsCount))
+		"Tailor 2th", Tailor2th(start, end, y0, pointsCount),
+		"Tailor 3th", Tailor3th(start, end, y0, pointsCount))
 	if err != nil {
 		panic(err)
 	}

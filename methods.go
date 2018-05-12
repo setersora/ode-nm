@@ -97,8 +97,8 @@ func RungeKutta(start, end, y0 float64, count int) plotter.XYs {
 	return solution
 }
 
-// Tailor returns data for plot building based on Tailor method.
-func Tailor(start, end, y0 float64, count int) plotter.XYs {
+// Tailor2th returns data for plot building based on Tailor 2th-Order method.
+func Tailor2th(start, end, y0 float64, count int) plotter.XYs {
 	step, xRange := GetRange(start, end, count)
 	solution := make(plotter.XYs, count)
 
@@ -110,9 +110,34 @@ func Tailor(start, end, y0 float64, count int) plotter.XYs {
 			solution[i].Y = y0
 		} else {
 			y := solution[i - 1].Y
+			secondDerivative := Fx(x, y) + Fy(x, y) * F(x, y)
 			solution[i].Y = y + step * F(x, y) +
-				(math.Pow(step, 2) / 2) *
-				(Fx(x, y) + Fy(x, y) * F(x, y))
+				(math.Pow(step, 2) / 2) * secondDerivative
+		}
+	}
+
+	return solution
+}
+
+// Tailor3th returns data for plot building based on Tailor 3th-Order method.
+func Tailor3th(start, end, y0 float64, count int) plotter.XYs {
+	step, xRange := GetRange(start, end, count)
+	solution := make(plotter.XYs, count)
+
+	for i := range solution {
+		x := xRange[i]
+
+		solution[i].X = x
+		if i == 0 {
+			solution[i].Y = y0
+		} else {
+			y := solution[i - 1].Y
+			secondDerivative := Fx(x, y) + Fy(x, y) * F(x, y)
+			thirdDerivative := (100 * y) + (50 * (2 * x - 1.45)) +
+				Fx(x, y) + Fy(x, y) + Fy(x, y) * secondDerivative
+			solution[i].Y = y + step * F(x, y) +
+				(math.Pow(step, 2) / 2) * secondDerivative +
+				(math.Pow(step, 3) / 6) * thirdDerivative
 		}
 	}
 
