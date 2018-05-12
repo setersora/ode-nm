@@ -66,7 +66,7 @@ func PreciseSolution(start, end float64, count int) plotter.XYs {
 
 // DrawPlot draws a plot of all methods' solutions for pointsCount points
 // named plotName and saves it to filename.
-func DrawPlot(pointsCount int, plotName, filename string) {
+func DrawPlot(start, end, y0 float64, pointsCount int, plotName, filename string) {
 	p, err := plot.New()
 	if err != nil {
 		panic(err)
@@ -76,8 +76,8 @@ func DrawPlot(pointsCount int, plotName, filename string) {
 	p.X.Label.Text = "X"
 	p.Y.Label.Text = "Y"
 
-	preciseSolution := PreciseSolution(0, 1, pointsCount)
-	err = plotutil.AddLinePoints(p, "Precise", preciseSolution)
+	err = plotutil.AddLinePoints(p,
+		"Precise", PreciseSolution(start, end, pointsCount))
 	if err != nil {
 		panic(err)
 	}
@@ -88,5 +88,7 @@ func DrawPlot(pointsCount int, plotName, filename string) {
 }
 
 func main() {
-	DrawPlot(100, "100 steps", "100_steps_test.png")
+	DrawPlot(0, 1, 0.1, 10, "10 steps", "10_steps.png")
+	DrawPlot(0, 1, 0.1, 100, "100 steps", "100_steps.png")
+	DrawPlot(0, 1, 0.1, 10000, "10000 steps", "10000_steps.png")
 }
