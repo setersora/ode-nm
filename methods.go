@@ -47,3 +47,23 @@ func ModifiedEuler(start, end, y0 float64, count int) plotter.XYs {
 	return solution
 }
 
+// Cauchy returns data for plot building based on Cauchy method.
+func Cauchy(start, end, y0 float64, count int) plotter.XYs {
+	step, xRange := GetRange(start, end, count)
+	solution := make(plotter.XYs, count)
+
+	for i := range solution {
+		x := xRange[i]
+
+		solution[i].X = x
+		if i == 0 {
+			solution[i].Y = y0
+		} else {
+			y := solution[i - 1].Y
+			predict := y + (step / 2) * F(x, y)
+			solution[i].Y = y + step * F(x + step / 2, predict)
+		}
+	}
+
+	return solution
+}
