@@ -3,6 +3,8 @@
 package main
 
 import (
+	"math"
+
 	"gonum.org/v1/plot/plotter"
 )
 
@@ -68,7 +70,6 @@ func Cauchy(start, end, y0 float64, count int) plotter.XYs {
 	return solution
 }
 
-
 // RungeKutta returns data for plot building based on RungeKutta 4th-Order method.
 func RungeKutta(start, end, y0 float64, count int) plotter.XYs {
 	step, xRange := GetRange(start, end, count)
@@ -90,6 +91,28 @@ func RungeKutta(start, end, y0 float64, count int) plotter.XYs {
 
 			solution[i].Y = y + (k1 / 6) + 2 * (k2 / 6) +
 				2 * (k3 / 6) + (k4 / 6)
+		}
+	}
+
+	return solution
+}
+
+// Tailor returns data for plot building based on Tailor method.
+func Tailor(start, end, y0 float64, count int) plotter.XYs {
+	step, xRange := GetRange(start, end, count)
+	solution := make(plotter.XYs, count)
+
+	for i := range solution {
+		x := xRange[i]
+
+		solution[i].X = x
+		if i == 0 {
+			solution[i].Y = y0
+		} else {
+			y := solution[i - 1].Y
+			solution[i].Y = y + step * F(x, y) +
+				(math.Pow(step, 2) / 2) *
+				(Fx(x, y) + Fy(x, y) * F(x, y))
 		}
 	}
 
