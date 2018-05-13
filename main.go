@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 
 	"gonum.org/v1/plot"
@@ -48,6 +49,26 @@ func GetRange(start, end float64, count int) (float64, []float64) {
 	return step, resultRange
 }
 
+type taskFunction func(float64) float64
+
+func SimpleIteration(x float64, f taskFunction) float64 {
+	epsilon := 0.00000001
+	methodError := float64(100)
+	iterCount := 0
+	for methodError > epsilon {
+		newX := f(x)
+		methodError = math.Abs(x - newX)
+		x = newX
+		iterCount += 1
+		if iterCount > 1000 {
+			fmt.Println("Simple iteration method returns",
+				"inaccurate result!")
+			return x
+		}
+	}
+	return x
+}
+
 // PreciseSolution returns data for plot building based on manually obtained
 // solution implemented as Y(x).
 func PreciseSolution(start, end float64, count int) plotter.XYs {
@@ -82,19 +103,23 @@ func DrawPlot(start, end, y0 float64, pointsCount int, plotName, filename string
 		"Modified Euler", ModifiedEuler(start, end, y0, pointsCount),
 		"Cauchy", Cauchy(start, end, y0, pointsCount),
 		"RungeKutta", RungeKutta(start, end, y0, pointsCount),
+		"Implicit Euler", ImplicitEuler(start, end, y0, pointsCount),
 		"Tailor 2th", Tailor2th(start, end, y0, pointsCount),
 		"Tailor 3th", Tailor3th(start, end, y0, pointsCount))
 	if err != nil {
 		panic(err)
 	}
 
-	if err := p.Save(10*vg.Inch, 10*vg.Inch, filename); err != nil {
+	if err := p.Save(16*vg.Inch, 9*vg.Inch, filename); err != nil {
 		panic(err)
 	}
 }
 
 func main() {
-	DrawPlot(0, 1, 0.1, 10, "10 steps", "10_steps.png")
-	DrawPlot(0, 1, 0.1, 100, "100 steps", "100_steps.png")
-	DrawPlot(0, 1, 0.1, 10000, "10000 steps", "10000_steps.png")
+	DrawPlot(0, 1, 0.1, 25, "25 steps", "25_steps.png")
+	DrawPlot(0, 1, 0.1, 75, "75 steps", "75_steps.png")
+	DrawPlot(0, 1, 0.1, 150, "150 steps", "150_steps.png")
+	DrawPlot(0, 1, 0.1, 750, "750 steps", "750_steps.png")
+	DrawPlot(0, 1, 0.1, 1500, "1500 steps", "1500_steps.png")
+	DrawPlot(0, 1, 0.1, 15000, "15000 steps", "15000_steps.png")
 }

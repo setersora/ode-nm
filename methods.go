@@ -97,6 +97,32 @@ func RungeKutta(start, end, y0 float64, count int) plotter.XYs {
 	return solution
 }
 
+func ImplicitEuler(start, end, y0 float64, count int) plotter.XYs {
+	step, xRange := GetRange(start, end, count)
+	solution := make(plotter.XYs, count)
+
+	for i := range solution {
+		if i == len(solution) - 1 {
+			break
+		}
+		x := xRange[i + 1]
+
+		solution[i].X = x
+		if i == 0 {
+			solution[i].Y = y0
+		} else {
+			prevY := solution[i - 1].Y
+			g := func(y float64) float64 {
+				return prevY + step * F(x, y)
+			}
+			yn1 := SimpleIteration(prevY, g)
+			solution[i].Y = g(yn1)
+		}
+	}
+
+	return solution
+}
+
 // Tailor2th returns data for plot building based on Tailor 2th-Order method.
 func Tailor2th(start, end, y0 float64, count int) plotter.XYs {
 	step, xRange := GetRange(start, end, count)
