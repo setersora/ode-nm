@@ -121,6 +121,5 @@ func main() {
 	DrawPlot(0, 1, 0.1, 75, "75 steps",       "ALL_75_steps.png")
 	DrawPlot(0, 1, 0.1, 150, "150 steps",     "ALL_150_steps.png")
 	DrawPlot(0, 1, 0.1, 750, "750 steps",     "ALL_750_steps.png")
-	DrawPlot(0, 1, 0.1, 1500, "1500 steps",   "ALL_1500_steps.png")
-	DrawPlot(0, 1, 0.1, 15000, "15000 steps", "ALL_15000_steps.png")
+	DrawPlot(0, 1, 0.1, 5000, "5000 steps",   "ALL_5000_steps.png")
 }

@@ -3,7 +3,9 @@
 package main
 
 import (
+	"fmt"
 	"math"
+	"os"
 
 	"gonum.org/v1/plot/plotter"
 )
@@ -202,3 +204,47 @@ func Adams(start, end, y0 float64, count int) plotter.XYs {
 	return solution
 }
 
+func Dichotomy(a, b float64, f func(float64) float64) float64 {
+	epsilon := 0.00000001
+
+	fa := f(a)
+	fb := f(b)
+
+	if fa == 0 {
+		return a
+	}
+	if fb == 0 {
+		return b
+	}
+
+	if fa * fb > 0 {
+		fmt.Println("Dichotomy error: fa * fb > 0")
+		os.Exit(1)
+	}
+
+	for math.Abs(a - b) > epsilon {
+		c := (a + b) / 2
+		fc := f(c)
+
+		if fc == 0 {
+			return c
+		}
+
+		if fc * fa < 0 {
+		    b = c
+		    fb = fc
+		    continue
+		}
+
+		if fc * fb < 0 {
+		    a = c
+		    fa = fc
+		    continue
+		}
+
+		fmt.Println("Dichotomy error: fc")
+		os.Exit(1)
+	}
+
+	return (a + b) / 2
+}
