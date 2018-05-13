@@ -105,7 +105,8 @@ func DrawPlot(start, end, y0 float64, pointsCount int, plotName, filename string
 		"RungeKutta", RungeKutta(start, end, y0, pointsCount),
 		"Implicit Euler", ImplicitEuler(start, end, y0, pointsCount),
 		"Tailor 2th", Tailor2th(start, end, y0, pointsCount),
-		"Tailor 3th", Tailor3th(start, end, y0, pointsCount))
+		"Tailor 3th", Tailor3th(start, end, y0, pointsCount),
+		"Adams", Adams(start, end, y0, pointsCount))
 	if err != nil {
 		panic(err)
 	}
@@ -116,10 +117,10 @@ func DrawPlot(start, end, y0 float64, pointsCount int, plotName, filename string
 }
 
 func main() {
-	DrawPlot(0, 1, 0.1, 25, "25 steps", "25_steps.png")
-	DrawPlot(0, 1, 0.1, 75, "75 steps", "75_steps.png")
-	DrawPlot(0, 1, 0.1, 150, "150 steps", "150_steps.png")
-	DrawPlot(0, 1, 0.1, 750, "750 steps", "750_steps.png")
-	DrawPlot(0, 1, 0.1, 1500, "1500 steps", "1500_steps.png")
-	DrawPlot(0, 1, 0.1, 15000, "15000 steps", "15000_steps.png")
+	DrawPlot(0, 1, 0.1, 25, "25 steps",       "ALL_25_steps.png")
+	DrawPlot(0, 1, 0.1, 75, "75 steps",       "ALL_75_steps.png")
+	DrawPlot(0, 1, 0.1, 150, "150 steps",     "ALL_150_steps.png")
+	DrawPlot(0, 1, 0.1, 750, "750 steps",     "ALL_750_steps.png")
+	DrawPlot(0, 1, 0.1, 1500, "1500 steps",   "ALL_1500_steps.png")
+	DrawPlot(0, 1, 0.1, 15000, "15000 steps", "ALL_15000_steps.png")
 }

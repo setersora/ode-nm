@@ -40,6 +40,7 @@ func ModifiedEuler(start, end, y0 float64, count int) plotter.XYs {
 		if i == 0 {
 			solution[i].Y = y0
 		} else {
+			x = solution[i - 1].X
 			y := solution[i - 1].Y
 			predict := y + step * F(x, y)
 			solution[i].Y = y + (step / 2) * (F(x, y) + F(x + step, predict))
@@ -61,6 +62,7 @@ func Cauchy(start, end, y0 float64, count int) plotter.XYs {
 		if i == 0 {
 			solution[i].Y = y0
 		} else {
+			x = solution[i - 1].X
 			y := solution[i - 1].Y
 			predict := y + (step / 2) * F(x, y)
 			solution[i].Y = y + step * F(x + step / 2, predict)
@@ -82,6 +84,7 @@ func RungeKutta(start, end, y0 float64, count int) plotter.XYs {
 		if i == 0 {
 			solution[i].Y = y0
 		} else {
+			x = solution[i - 1].X
 			y := solution[i - 1].Y
 
 			k1 := step * F(x, y)
@@ -135,6 +138,7 @@ func Tailor2th(start, end, y0 float64, count int) plotter.XYs {
 		if i == 0 {
 			solution[i].Y = y0
 		} else {
+			x = solution[i - 1].X
 			y := solution[i - 1].Y
 			secondDerivative := Fx(x, y) + Fy(x, y) * F(x, y)
 			solution[i].Y = y + step * F(x, y) +
@@ -157,6 +161,7 @@ func Tailor3th(start, end, y0 float64, count int) plotter.XYs {
 		if i == 0 {
 			solution[i].Y = y0
 		} else {
+			x = solution[i - 1].X
 			y := solution[i - 1].Y
 			secondDerivative := Fx(x, y) + Fy(x, y) * F(x, y)
 			thirdDerivative := (100 * y) + (50 * (2 * x - 1.45)) +
@@ -169,3 +174,31 @@ func Tailor3th(start, end, y0 float64, count int) plotter.XYs {
 
 	return solution
 }
+
+// Adams returns data for plot building based on Adams 2th-Order method.
+func Adams(start, end, y0 float64, count int) plotter.XYs {
+	step, xRange := GetRange(start, end, count)
+	solution := make(plotter.XYs, count)
+
+	for i := range solution {
+		x := xRange[i]
+
+		solution[i].X = x
+		if i == 0 {
+			solution[i].Y = y0
+		} else {
+			xn1 := x
+			xn := solution[i - 1].X
+			yn := solution[i - 1].Y
+			fn := F(xn, yn)
+			g := func(y float64) float64 {
+				return yn + step / 2 * (fn + F(xn1, y))
+			}
+			yn1 := SimpleIteration(yn, g)
+			solution[i].Y = g(yn1)
+		}
+	}
+
+	return solution
+}
+
