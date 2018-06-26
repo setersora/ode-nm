@@ -12,6 +12,10 @@ The task is like this. We have a system of equations:
 Solving the system manually we get the precise solution, calculate
 the partial f(x, y) derivatives and hardcode all these functions.
 
+To solve your own equations you must change functions `F()`, `Fx()`, `Fy()`,
+`Y()`, `SecondDerivative()` and `ThirdDerivative()` to ones corresponding
+to your equations.
+
 Then all methods implemented are applied to the system and plots
 are built. Watching plots we can visually compare accuracy of all methods
 since there is also the plot of the precise solution.
