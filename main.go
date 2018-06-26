@@ -11,33 +11,43 @@ import (
 )
 
 // F returns the value of the original f(x, y) given in the task at point (x, y).
+// Needs to be changed for other equations.
 func F(x, y float64) float64 {
 	return 50 * y * (math.Pow(x, 2) - 1.45 * x + 0.51)
 }
 
 // Fx returns the value of the partial derivative by x of the original
 // f(x, y) given in the task at point (x, y).
+// Needs to be changed for other equations.
 func Fx(x, y float64) float64 {
 	return 50 * y * (2 * x - 1.45)
 }
 
 // Fy returns the value of the partial derivative by x of the original
 // f(x, y) given in the task at point (x, y).
+// Needs to be changed for other equations.
 func Fy(x, y float64) float64 {
 	return 50 * (math.Pow(x, 2) - 1.45 * x + 0.51)
 }
 
 // Y returns the value of the manually obtained precise solution of the task
 // at point with abscissa x.
+// Needs to be changed for other equations.
 func Y(x float64) float64 {
 	arg := 50 * ((math.Pow(x, 3) / 3) -  1.45 * (math.Pow(x, 2) / 2) + 0.51 * x)
 	return 0.1 * math.Exp(arg)
 }
 
+// SecondDerivative is simply second derivative of F.
+// Is used in Tailor methods.
+// Needs to be changed for other equations.
 func SecondDerivative(x, y float64) float64 {
 	return Fx(x, y) + Fy(x, y) * F(x, y)
 }
 
+// ThirdDerivative is simpy third derivative of F.
+// Is used in Tailor methods.
+// Needs to be changed for other equations.
 func ThirdDerivative(x, y float64) float64 {
 	return (100 * y) + (50 * (2 * x - 1.45)) +
 		Fx(x, y) + Fy(x, y) + Fy(x, y) * SecondDerivative(x, y)
@@ -60,6 +70,8 @@ func GetRange(start, end float64, count int) (float64, []float64) {
 
 type taskFunction func(float64) float64
 
+// SimpleIteration is used as helper to solve simple equations
+// in Adams and implicit Euler methods.
 func SimpleIteration(x float64, f taskFunction) float64 {
 	epsilon := 0.00000001
 	methodError := float64(100)
@@ -113,8 +125,8 @@ func DrawPlot(start, end, y0 float64, pointsCount int, plotName, filename string
 		"Cauchy", Cauchy(start, end, y0, pointsCount),
 		"RungeKutta", RungeKutta(start, end, y0, pointsCount),
 		"Implicit Euler", ImplicitEuler(start, end, y0, pointsCount),
-		"Tailor 2th", Tailor2th(start, end, y0, pointsCount),
-		"Tailor 3th", Tailor3th(start, end, y0, pointsCount),
+		"Tailor 2nd", Tailor2nd(start, end, y0, pointsCount),
+		"Tailor 3rd", Tailor3rd(start, end, y0, pointsCount),
 		"Adams", Adams(start, end, y0, pointsCount))
 	if err != nil {
 		panic(err)

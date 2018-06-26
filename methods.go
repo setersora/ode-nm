@@ -128,8 +128,8 @@ func ImplicitEuler(start, end, y0 float64, count int) plotter.XYs {
 	return solution
 }
 
-// Tailor2th returns data for plot building based on Tailor 2th-Order method.
-func Tailor2th(start, end, y0 float64, count int) plotter.XYs {
+// Tailor2nd returns data for plot building based on Tailor 2nd-Order method.
+func Tailor2nd(start, end, y0 float64, count int) plotter.XYs {
 	step, xRange := GetRange(start, end, count)
 	solution := make(plotter.XYs, count)
 
@@ -150,8 +150,8 @@ func Tailor2th(start, end, y0 float64, count int) plotter.XYs {
 	return solution
 }
 
-// Tailor3th returns data for plot building based on Tailor 3th-Order method.
-func Tailor3th(start, end, y0 float64, count int) plotter.XYs {
+// Tailor3rd returns data for plot building based on Tailor 3rd-Order method.
+func Tailor3rd(start, end, y0 float64, count int) plotter.XYs {
 	step, xRange := GetRange(start, end, count)
 	solution := make(plotter.XYs, count)
 
@@ -173,7 +173,7 @@ func Tailor3th(start, end, y0 float64, count int) plotter.XYs {
 	return solution
 }
 
-// Adams returns data for plot building based on Adams 2th-Order method.
+// Adams returns data for plot building based on Adams 2nd-Order method.
 func Adams(start, end, y0 float64, count int) plotter.XYs {
 	step, xRange := GetRange(start, end, count)
 	solution := make(plotter.XYs, count)
