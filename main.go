@@ -34,6 +34,15 @@ func Y(x float64) float64 {
 	return 0.1 * math.Exp(arg)
 }
 
+func SecondDerivative(x, y float64) float64 {
+	return Fx(x, y) + Fy(x, y) * F(x, y)
+}
+
+func ThirdDerivative(x, y float64) float64 {
+	return (100 * y) + (50 * (2 * x - 1.45)) +
+		Fx(x, y) + Fy(x, y) + Fy(x, y) * SecondDerivative(x, y)
+}
+
 // GetRange returns a range of *count* values between *start* and *end*.
 func GetRange(start, end float64, count int) (float64, []float64) {
 	var step float64

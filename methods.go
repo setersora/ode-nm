@@ -142,9 +142,8 @@ func Tailor2th(start, end, y0 float64, count int) plotter.XYs {
 		} else {
 			x = solution[i - 1].X
 			y := solution[i - 1].Y
-			secondDerivative := Fx(x, y) + Fy(x, y) * F(x, y)
 			solution[i].Y = y + step * F(x, y) +
-				(math.Pow(step, 2) / 2) * secondDerivative
+				(math.Pow(step, 2) / 2) * SecondDerivative(x, y)
 		}
 	}
 
@@ -165,12 +164,9 @@ func Tailor3th(start, end, y0 float64, count int) plotter.XYs {
 		} else {
 			x = solution[i - 1].X
 			y := solution[i - 1].Y
-			secondDerivative := Fx(x, y) + Fy(x, y) * F(x, y)
-			thirdDerivative := (100 * y) + (50 * (2 * x - 1.45)) +
-				Fx(x, y) + Fy(x, y) + Fy(x, y) * secondDerivative
 			solution[i].Y = y + step * F(x, y) +
-				(math.Pow(step, 2) / 2) * secondDerivative +
-				(math.Pow(step, 3) / 6) * thirdDerivative
+				(math.Pow(step, 2) / 2) * SecondDerivative(x, y) +
+				(math.Pow(step, 3) / 6) * ThirdDerivative(x, y)
 		}
 	}
 
@@ -242,7 +238,7 @@ func Dichotomy(a, b float64, f func(float64) float64) float64 {
 		    continue
 		}
 
-		fmt.Println("Dichotomy error: fc")
+		fmt.Println("Dichotomy error: fc * fb < 0")
 		os.Exit(1)
 	}
 
